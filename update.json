@@ -3,16 +3,7 @@
   "required": true,
   "url": "https://github.com/Skilledcyberxd/neutron-launcher/releases/download/1.0.1/neutron-launcher.zip",
   "changelog": [
-    "Bug fixes and stability improvements",
-    "Added new accent colors and themes",
-    "Improved UI design and overall look",
-    "Added 'Check for Updates' button",
-    "Introduced FPS Preset System:",
-    "- Low-End Mode (maximum FPS for weak PCs)",
-    "- Standard Mode (balanced performance)",
-    "- Performance Boost Mode (aggressive optimization)",
-    "- High-End Mode (best visuals and smooth gameplay)",
-    "Faster loading and better responsiveness",
-    "Minor improvements and polishing"
+    "Bug fixes",
+    "Performance improvements"
   ]
 }
