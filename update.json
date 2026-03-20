@@ -1,6 +1,41 @@
 {
-  "version": "1.0.0",
-  "required": false,
+  "version": "1.0.1",
+  "required": true,
   "url": "",
-  "changelog": []
+  "changelog": [Bug Fixes & Stability Improvements
+
+Fixed multiple launcher issues for smoother performance
+
+Improved overall stability and reduced crashes
+
+New Accent Colors & Themes
+
+Added more customization options
+
+Cleaner and more modern UI
+
+Check for Updates Button
+
+Easily check for the latest version anytime
+
+Stay up to date without reinstalling
+
+New FPS Preset System
+Optimized presets for different types of PCs:
+
+Low-End Mode — Maximum FPS for low-end systems
+
+Standard Mode — Balanced performance and visuals
+
+Performance Boost Mode — Higher FPS with aggressive optimization
+
+High-End Mode — Best visuals with smooth performance
+
+Minor Improvements
+
+UI polishing
+
+Faster loading times
+
+Improved responsiveness]
 }
