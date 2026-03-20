@@ -3,7 +3,6 @@
   "required": false,
   "url": "",
   "changelog": [
-    "Bug fixes and performance improvements",
-    "Minor UI improvements"
+    "Bug fixes"
   ]
 }
