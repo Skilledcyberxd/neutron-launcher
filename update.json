@@ -1,12 +1,9 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "required": false,
   "url": "",
   "changelog": [
-    "Initial release of Neutron Launcher",
-    "Fabric 1.21 – 1.21.11 support",
-    "Bundled Java 21",
-    "Microsoft and offline accounts",
-    "Built-in mod manager"
+    "Bug fixes and performance improvements",
+    "Minor UI improvements"
   ]
 }
