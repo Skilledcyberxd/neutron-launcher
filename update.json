@@ -1,0 +1,12 @@
+{
+  "version":   "1.0.0",
+  "required":  false,
+  "url":       "https://github.com/YOUR_USERNAME/neutron-launcher/releases/download/v1.0.0/neutron-launcher-1.0.0.zip",
+  "changelog": [
+    "Initial release of Neutron Launcher",
+    "Fabric 1.21 – 1.21.11 support",
+    "Bundled Java 21",
+    "Microsoft & offline account support",
+    "Built-in mod manager"
+  ]
+}
