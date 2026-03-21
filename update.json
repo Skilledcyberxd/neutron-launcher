@@ -1,9 +1,10 @@
 {
   "version": "1.0.1",
-  "required": false,
-  "url": "https://github.com/Skilledcyberxd/neutron-launcher/releases/download/1.0.1/neutron-launcher.zip",
+  "required": true,
+  "url": "https://github.com/YOUR_USERNAME/neutron-launcher/releases/download/v1.0.1/neutron-1.0.1.zip",
   "changelog": [
-    "Bug fixes",
-    "Performance improvements"
+    "4-tier FPS optimization",
+    "8 themes, 12 accent colors",
+    "Professional update system"
   ]
 }
