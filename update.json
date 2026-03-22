@@ -1,11 +1,18 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.1",
   "required": false,
-  "url": "https://github.com/Skilledcyberxd/neutron-launcher/releases/download/1.0.2/neutron-1.0.2.zip",
+  "url": "",
   "changelog": [
-    "New professional icon",
-    "Redesigned Play page",
-    "Redesigned Accounts page",
-    "Optimization presets moved to Settings"
+    "Full GUI rebuild — 1280x760, dark professional design",
+    "Account section at top of sidebar with avatar",
+    "Icon + text sidebar with section labels and badges",
+    "Full-area Play page with version picker and session info panel",
+    "Full-area Mods page with search, detail panel, enable/disable all",
+    "Launch button directly on versions list",
+    "New matching dark splash screen with progress ring",
+    "4 themes: Pure Black, Midnight, Nord, Deep Space",
+    "8 accent colors",
+    "Java status indicator in Settings",
+    "RAM usage bar in sidebar footer"
   ]
 }
