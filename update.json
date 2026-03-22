@@ -3,13 +3,9 @@
   "required": false,
   "url": "https://github.com/Skilledcyberxd/neutron-launcher/releases/download/v1.0.2/neutron-1.0.2.zip",
   "changelog": [
-    "New professional N mark logo and icon",
-    "Full wordmark: NEUTRON / LAUNCHER in titlebar",
-    "Redesigned nav icons — unique branded SVG icons for all pages",
-    "Nav icons glow with accent color when active",
-    "Windows taskbar icon updated to new N mark",
-    "Professional update system — no repeat popups after installing",
-    "Skip update remembers your choice per version",
-    "Check for Updates button in Settings"
+    "New professional icon",
+    "Redesigned Play page",
+    "Redesigned Accounts page",
+    "Optimization presets moved to Settings"
   ]
 }
