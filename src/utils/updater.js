@@ -14,7 +14,7 @@ const { app } = require('electron');
 const logger  = require('./logger');
 
 // ── Change this to YOUR raw GitHub URL ───────────────────────────────────────
-var UPDATE_MANIFEST_BASE = 'https://raw.githubusercontent.com/Skilledcyberxd/neutron-launcher/main/update.json';
+var UPDATE_MANIFEST_BASE = 'https://raw.githubusercontent.com/Skilledcyberxd/neutron-launcher/refs/heads/main/update.json';
 
 const CURRENT_VERSION = app.getVersion();
 const CACHE_DIR       = path.join(app.getPath('userData'), 'update-cache');
