@@ -1,0 +1,56 @@
+appId: com.neutron.launcher
+productName: "Neutron Launcher"
+copyright: "© 2026 Neutron Team"
+asar: true
+
+directories:
+  output: dist
+  buildResources: assets
+
+files:
+  - main.js
+  - preload.js
+  - renderer/**
+  - src/**
+  - backend/**
+  - assets/**
+  - node_modules/**
+  - "!node_modules/.cache"
+  - "!node_modules/.bin"
+  - "!**/*.map"
+  - "!**/*.ts"
+  - "!**/test/**"
+  - "!**/tests/**"
+  - "!**/.git/**"
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: assets/icon.ico
+  requestedExecutionLevel: asInvoker
+  verifyUpdateCodeSignature: false
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  installerIcon: assets/icon.ico
+  uninstallerIcon: assets/icon.ico
+  installerHeaderIcon: assets/icon.ico
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "Neutron Launcher"
+  deleteAppDataOnUninstall: false
+  menuCategory: "Neutron Launcher"
+  installerLanguages:
+    - en_US
+  license: LICENSE.txt
+
+portable:
+  artifactName: "NeutronLauncher-${version}-portable.exe"
+
+publish:
+  provider: generic
+  url: "https://neutronlauncher.net/updates/"

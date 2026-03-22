@@ -1,0 +1,5 @@
+# Neutron Launcher - Python Backend Dependencies
+# Install with: pip install -r requirements.txt
+
+psutil>=5.9.0       # System resource monitoring (RAM, CPU)
+requests>=2.31.0    # HTTP requests for downloads (optional, Node.js handles most)

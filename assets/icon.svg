@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#7DD8FF"/>
+      <stop offset="50%"  stop-color="#3AAEE8"/>
+      <stop offset="100%" stop-color="#1A6EC8"/>
+    </linearGradient>
+    <filter id="gl" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Rounded square bg -->
+  <rect width="256" height="256" rx="52" fill="#070B1A"/>
+  <rect x="1" y="1" width="254" height="254" rx="51" fill="none" stroke="rgba(77,200,240,.15)" stroke-width="2"/>
+
+  <!-- N mark — left bar -->
+  <rect x="48" y="60" width="38" height="136" rx="10" fill="url(#g1)" filter="url(#gl)"/>
+  <!-- N mark — right bar -->
+  <rect x="170" y="60" width="38" height="136" rx="10" fill="url(#g1)" filter="url(#gl)"/>
+  <!-- N mark — diagonal -->
+  <polygon points="52,60 86,60 206,196 172,196" fill="url(#g1)" filter="url(#gl)"/>
+
+  <!-- Corner dots -->
+  <circle cx="67" cy="60" r="11" fill="#90DCFF" filter="url(#gl)"/>
+  <circle cx="189" cy="196" r="11" fill="#90DCFF" filter="url(#gl)"/>
+
+  <!-- Highlight left bar -->
+  <rect x="48" y="60" width="10" height="136" rx="5" fill="rgba(200,240,255,.3)"/>
+
+  <!-- Particle dot top right -->
+  <circle cx="210" cy="52" r="14" fill="#0A1830"/>
+  <circle cx="210" cy="52" r="9"  fill="none" stroke="rgba(77,200,240,.4)" stroke-width="1.5"/>
+  <circle cx="210" cy="52" r="5"  fill="#4DC8F0" filter="url(#gl)"/>
+  <circle cx="207" cy="49" r="1.5" fill="#C8F0FF"/>
+</svg>

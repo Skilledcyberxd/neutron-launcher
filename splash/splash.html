@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Neutron Launcher</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{
+      width:100%;height:100%;
+      background:transparent;
+      overflow:hidden;
+      font-family:'Outfit',system-ui,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      user-select:none;
+    }
+
+    /* ── Fullscreen dark bg ── */
+    .bg{
+      position:fixed;inset:0;
+      background:radial-gradient(ellipse 800px 600px at 50% 40%,
+        rgba(30,10,80,.95) 0%,
+        rgba(5,5,20,.98) 55%,
+        rgba(2,2,10,1) 100%);
+    }
+
+    /* Grid overlay */
+    .grid{
+      position:fixed;inset:0;
+      background-image:
+        linear-gradient(rgba(100,60,255,.04) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(100,60,255,.04) 1px,transparent 1px);
+      background-size:44px 44px;
+    }
+
+    /* Ambient glows */
+    .glow-1{
+      position:fixed;top:-200px;left:-200px;
+      width:700px;height:700px;border-radius:50%;
+      background:radial-gradient(circle,rgba(77,200,240,.12) 0%,transparent 65%);
+      pointer-events:none;
+      animation:driftA 8s ease-in-out infinite alternate;
+    }
+    .glow-2{
+      position:fixed;bottom:-150px;right:-150px;
+      width:600px;height:600px;border-radius:50%;
+      background:radial-gradient(circle,rgba(140,40,255,.10) 0%,transparent 65%);
+      pointer-events:none;
+      animation:driftB 10s ease-in-out infinite alternate;
+    }
+    @keyframes driftA{from{transform:translate(0,0)}to{transform:translate(60px,40px)}}
+    @keyframes driftB{from{transform:translate(0,0)}to{transform:translate(-50px,-30px)}}
+
+    /* ── Main panel ── */
+    .panel{
+      position:fixed;inset:0;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:0;
+      animation:panelIn .6s cubic-bezier(.2,0,.1,1) forwards;
+      opacity:0;transform:scale(.94);
+    }
+    @keyframes panelIn{to{opacity:1;transform:scale(1)}}
+
+    /* ── Logo ring ── */
+    .logo-wrap{
+      position:relative;
+      width:160px;height:160px;
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:32px;
+    }
+
+    /* Outer halo */
+    .ring-halo{
+      position:absolute;inset:-16px;border-radius:50%;
+      background:conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(77,200,240,.06) 60deg,
+        rgba(140,40,255,.06) 180deg,
+        transparent 240deg
+      );
+      animation:haloSpin 4s linear infinite;
+    }
+    @keyframes haloSpin{to{transform:rotate(360deg)}}
+
+    /* SVG progress ring */
+    .ring-svg{
+      position:absolute;inset:0;
+      width:160px;height:160px;
+      transform:rotate(-90deg);
+    }
+    .ring-track{
+      fill:none;
+      stroke:rgba(255,255,255,.06);
+      stroke-width:3;
+    }
+    .ring-progress{
+      fill:none;
+      stroke:url(#ringGrad);
+      stroke-width:3;
+      stroke-linecap:round;
+      stroke-dasharray:452;
+      stroke-dashoffset:452;
+      transition:stroke-dashoffset .4s ease;
+      filter:drop-shadow(0 0 6px rgba(77,200,240,.6));
+    }
+    .ring-progress.animate{
+      animation:ringFill 3s ease forwards;
+    }
+    @keyframes ringFill{
+      0%  {stroke-dashoffset:452}
+      30% {stroke-dashoffset:320}
+      60% {stroke-dashoffset:180}
+      80% {stroke-dashoffset:100}
+      100%{stroke-dashoffset:20}
+    }
+
+    /* Spinning tick marks */
+    .ring-spin{
+      position:absolute;inset:-4px;border-radius:50%;
+      border:1px dashed rgba(100,60,255,.15);
+      animation:spinSlow 20s linear infinite;
+    }
+    @keyframes spinSlow{to{transform:rotate(360deg)}}
+
+    /* Logo cube box */
+    .logo-box{
+      width:88px;height:88px;border-radius:22px;
+      background:rgba(10,14,35,.9);
+      border:1px solid rgba(77,200,240,.2);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:
+        0 0 30px rgba(77,200,240,.12),
+        0 0 60px rgba(140,40,255,.08),
+        inset 0 1px 0 rgba(255,255,255,.06);
+      animation:logoGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes logoGlow{
+      from{box-shadow:0 0 20px rgba(77,200,240,.1),inset 0 1px 0 rgba(255,255,255,.06)}
+      to  {box-shadow:0 0 40px rgba(77,200,240,.22),0 0 80px rgba(140,40,255,.1),inset 0 1px 0 rgba(255,255,255,.08)}
+    }
+
+    /* ── Launcher name ── */
+    .launcher-name{
+      font-size:28px;font-weight:800;
+      letter-spacing:.04em;
+      background:linear-gradient(135deg,#fff 0%,#9bd4f8 40%,#b06cff 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      margin-bottom:6px;
+      animation:nameIn .8s .3s cubic-bezier(.2,0,.1,1) both;
+    }
+    @keyframes nameIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+    .launcher-ver{
+      font-size:12px;font-weight:600;letter-spacing:.12em;
+      color:rgba(150,170,210,.5);
+      text-transform:uppercase;
+      margin-bottom:48px;
+      animation:nameIn .8s .45s cubic-bezier(.2,0,.1,1) both;
+    }
+
+    /* ── Status area ── */
+    .status-wrap{
+      display:flex;flex-direction:column;align-items:center;gap:14px;
+      animation:nameIn .8s .6s cubic-bezier(.2,0,.1,1) both;
+      width:320px;
+    }
+
+    .status-bar-track{
+      width:100%;height:3px;
+      background:rgba(255,255,255,.06);
+      border-radius:99px;overflow:hidden;
+    }
+    .status-bar-fill{
+      height:100%;width:0%;
+      background:linear-gradient(90deg,#4DC8F0,#8C28FF);
+      border-radius:99px;
+      transition:width .5s ease;
+      box-shadow:0 0 8px rgba(77,200,240,.5);
+    }
+
+    .status-row{
+      display:flex;align-items:center;justify-content:space-between;
+      width:100%;
+    }
+    .status-text{
+      font-size:13px;font-weight:500;
+      color:rgba(160,185,230,.75);
+      letter-spacing:.02em;
+      transition:opacity .3s;
+    }
+    .status-pct{
+      font-size:13px;font-weight:700;
+      color:rgba(77,200,240,.8);
+      font-variant-numeric:tabular-nums;
+    }
+
+    /* Dots loader */
+    .dots{
+      display:flex;gap:6px;margin-top:4px;
+    }
+    .dot{
+      width:4px;height:4px;border-radius:50%;
+      background:rgba(140,40,255,.5);
+      animation:dotPulse 1.2s ease-in-out infinite;
+    }
+    .dot:nth-child(2){animation-delay:.2s;background:rgba(77,200,240,.5);}
+    .dot:nth-child(3){animation-delay:.4s;}
+    @keyframes dotPulse{
+      0%,100%{transform:scale(1);opacity:.5}
+      50%{transform:scale(1.5);opacity:1}
+    }
+
+    /* ── Copyright ── */
+    .copyright{
+      position:fixed;bottom:24px;
+      font-size:11px;color:rgba(120,130,160,.35);
+      letter-spacing:.06em;
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="grid"></div>
+<div class="glow-1"></div>
+<div class="glow-2"></div>
+
+<div class="panel" id="panel">
+
+  <!-- Logo with progress ring -->
+  <div class="logo-wrap">
+    <div class="ring-halo"></div>
+    <div class="ring-spin"></div>
+
+    <svg class="ring-svg" viewBox="0 0 160 160">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stop-color="#4DC8F0"/>
+          <stop offset="50%"  stop-color="#7B6FFF"/>
+          <stop offset="100%" stop-color="#8C28FF"/>
+        </linearGradient>
+      </defs>
+      <circle class="ring-track"    cx="80" cy="80" r="72"/>
+      <circle class="ring-progress" cx="80" cy="80" r="72" id="ring"/>
+    </svg>
+
+    <div class="logo-box">
+      <!-- Inline neutron cube SVG -->
+      <svg viewBox="0 0 512 512" width="52" height="52" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sp-gT" x1="15%" y1="0%" x2="85%" y2="100%"><stop offset="0%" stop-color="#58C8F4"/><stop offset="30%" stop-color="#2898D8"/><stop offset="70%" stop-color="#1468A8"/><stop offset="100%" stop-color="#082C5C"/></linearGradient>
+          <linearGradient id="sp-gTh" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#70D8FF" stop-opacity=".45"/><stop offset="100%" stop-color="#70D8FF" stop-opacity="0"/></linearGradient>
+          <linearGradient id="sp-gL" x1="0%" y1="0%" x2="20%" y2="100%"><stop offset="0%" stop-color="#0C2848"/><stop offset="100%" stop-color="#030B18"/></linearGradient>
+          <linearGradient id="sp-gR" x1="100%" y1="0%" x2="80%" y2="100%"><stop offset="0%" stop-color="#1C4878"/><stop offset="100%" stop-color="#050F20"/></linearGradient>
+          <clipPath id="sp-cT"><polygon points="256,72 432,162 256,252 80,162"/></clipPath>
+          <clipPath id="sp-cL"><polygon points="80,162 256,252 256,442 80,352"/></clipPath>
+          <clipPath id="sp-cR"><polygon points="256,252 432,162 432,352 256,442"/></clipPath>
+        </defs>
+        <polygon points="256,72 432,162 256,252 80,162" fill="url(#sp-gT)"/>
+        <polygon points="256,72 432,162 256,252 80,162" fill="url(#sp-gTh)"/>
+        <g clip-path="url(#sp-cT)"><g transform="matrix(22,11,-22,11,256,72)" shape-rendering="crispEdges"><rect x="0" y="0" width="8" height="8" fill="#0C2840"/><rect x="1" y="1" width="6" height="1" fill="#0F4068"/><rect x="1" y="6" width="6" height="1" fill="#0F4068"/><rect x="1" y="2" width="1" height="4" fill="#0F4068"/><rect x="6" y="2" width="1" height="4" fill="#0F4068"/><rect x="2" y="2" width="4" height="1" fill="#2490D0"/><rect x="2" y="5" width="4" height="1" fill="#2490D0"/><rect x="2" y="3" width="1" height="2" fill="#2490D0"/><rect x="5" y="3" width="1" height="2" fill="#2490D0"/><rect x="3" y="3" width="2" height="1" fill="#48C4F0"/><rect x="3" y="4" width="2" height="1" fill="#48C4F0"/><rect x="3" y="3" width="1" height="2" fill="#48C4F0"/><rect x="4" y="3" width="1" height="2" fill="#48C4F0"/><rect x="3.4" y="3.4" width="1.2" height="1.2" fill="#A0EEFF"/><rect x="3.6" y="3.6" width=".8" height=".8" fill="#E0F8FF"/></g></g>
+        <polygon points="80,162 256,252 256,442 80,352" fill="url(#sp-gL)"/>
+        <polygon points="256,252 432,162 432,352 256,442" fill="url(#sp-gR)"/>
+        <line x1="256" y1="72" x2="80"  y2="162" stroke="#74E4FF" stroke-width="2" stroke-linecap="square"/>
+        <line x1="256" y1="72" x2="432" y2="162" stroke="#58D0F0" stroke-width="2" stroke-linecap="square"/>
+        <line x1="80"  y1="162" x2="80"  y2="352" stroke="#1C4870" stroke-width="1.6" stroke-linecap="square"/>
+        <line x1="432" y1="162" x2="432" y2="352" stroke="#245A80" stroke-width="1.6" stroke-linecap="square"/>
+        <line x1="256" y1="252" x2="256" y2="442" stroke="#0E2440" stroke-width="1.6" stroke-linecap="square"/>
+        <line x1="80"  y1="352" x2="256" y2="442" stroke="#0C1E30" stroke-width="1.6" stroke-linecap="square"/>
+        <line x1="432" y1="352" x2="256" y2="442" stroke="#0E2232" stroke-width="1.6" stroke-linecap="square"/>
+        <rect x="252" y="68" width="8" height="8" fill="#5AECFF" shape-rendering="crispEdges"/>
+        <rect x="254" y="70" width="4" height="4" fill="#C8FEFF" shape-rendering="crispEdges"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="launcher-name">Neutron Launcher</div>
+  <div class="launcher-ver" id="ver-text">v1.0.0</div>
+
+  <div class="status-wrap">
+    <div class="status-row">
+      <span class="status-text" id="status-text">Initializing…</span>
+      <span class="status-pct" id="status-pct"></span>
+    </div>
+    <div class="status-bar-track">
+      <div class="status-bar-fill" id="bar"></div>
+    </div>
+    <div class="dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="copyright">© 2026 Neutron Launcher</div>
+
+<script>
+  const ring   = document.getElementById('ring');
+  const bar    = document.getElementById('bar');
+  const stTxt  = document.getElementById('status-text');
+  const stPct  = document.getElementById('status-pct');
+  const verTxt = document.getElementById('ver-text');
+  const CIRC   = 2 * Math.PI * 72; // 452.4
+
+  // Start ring animation
+  ring.style.strokeDasharray  = CIRC;
+  ring.style.strokeDashoffset = CIRC;
+
+  function setProgress(pct) {
+    const offset = CIRC - (CIRC * pct / 100);
+    ring.style.strokeDashoffset = offset;
+    bar.style.width = pct + '%';
+    stPct.textContent = pct > 0 ? pct + '%' : '';
+  }
+
+  function setStatus(text) {
+    stTxt.style.opacity = '0';
+    setTimeout(() => {
+      stTxt.textContent = text;
+      stTxt.style.opacity = '1';
+    }, 200);
+  }
+
+  // Listen for IPC from main process
+  if (window.splashBridge) {
+    window.splashBridge.onProgress((data) => {
+      if (data.status)   setStatus(data.status);
+      if (data.percent != null) setProgress(data.percent);
+      if (data.version)  verTxt.textContent = 'v' + data.version;
+    });
+  } else {
+    // Dev preview — animate automatically
+    const steps = [
+      { pct:  5, text: 'Initializing…' },
+      { pct: 20, text: 'Loading configuration…' },
+      { pct: 40, text: 'Checking for updates…' },
+      { pct: 70, text: 'Verifying files…' },
+      { pct: 90, text: 'Almost ready…' },
+      { pct:100, text: 'Launching!' },
+    ];
+    let i = 0;
+    const tick = () => {
+      if (i >= steps.length) return;
+      setProgress(steps[i].pct);
+      setStatus(steps[i].text);
+      i++;
+      setTimeout(tick, 600);
+    };
+    setTimeout(tick, 400);
+  }
+</script>
+</body>
+</html>
